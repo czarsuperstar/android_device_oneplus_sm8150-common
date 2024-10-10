@@ -45,6 +45,7 @@ PRODUCT_PACKAGES += \
     audio.usb.default \
     libaudio-resampler \
     libaudioroute \
+    libbatterylistener \
     libhdmiedid \
     libexthwplugin \
     libhfp \
@@ -134,8 +135,6 @@ PRODUCT_PACKAGES += \
     android.hardware.graphics.composer@2.4-service \
     android.hardware.graphics.mapper@3.0-impl-qti-display \
     android.hardware.graphics.mapper@4.0-impl-qti-display \
-    android.hardware.memtrack@1.0-impl \
-    android.hardware.memtrack@1.0-service \
     gralloc.msmnile \
     hwcomposer.msmnile \
     libdisplayconfig.qti \
@@ -144,7 +143,6 @@ PRODUCT_PACKAGES += \
     libqdMetaData.system \
     libtinyxml \
     libvulkan \
-    memtrack.msmnile \
     vendor.display.config@1.9.vendor \
     vendor.display.config@2.0 \
     vendor.display.config@2.0.vendor \
@@ -153,7 +151,8 @@ PRODUCT_PACKAGES += \
     vendor.qti.hardware.display.mapper@1.1.vendor \
     vendor.qti.hardware.display.mapper@2.0.vendor \
     vendor.qti.hardware.display.mapper@3.0.vendor \
-    vendor.qti.hardware.display.mapper@4.0.vendor
+    vendor.qti.hardware.display.mapper@4.0.vendor \
+    vendor.qti.hardware.memtrack-service
 
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.touchscreen.multitouch.jazzhand.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.touchscreen.multitouch.jazzhand.xml \
@@ -165,10 +164,12 @@ PRODUCT_PACKAGES += \
 # DRM
 PRODUCT_PACKAGES += \
     android.hardware.drm@1.3.vendor \
-    android.hardware.drm-service.clearkey
+    android.hardware.drm-service.clearkey \
+    wvmkiller
 
 # fastbootd
 PRODUCT_PACKAGES += \
+    android.hardware.fastboot@1.1-impl.custom \
     fastbootd
 
 # Fingerprint
@@ -255,10 +256,16 @@ PRODUCT_PACKAGES += \
 
 # LiveDisplay
 PRODUCT_PACKAGES += \
-    vendor.lineage.livedisplay@2.1-service.oneplus_msmnile
+    vendor.lineage.livedisplay@2.1-service.oplus
+
+$(call soong_config_set,OPLUS_LINEAGE_LIVEDISPLAY_HAL,ENABLE_AF,true)
+$(call soong_config_set,OPLUS_LINEAGE_LIVEDISPLAY_HAL,ENABLE_DM,true)
 
 # Media
 PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/media/media_codecs.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs.xml \
+    $(LOCAL_PATH)/media/media_codecs_performance.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_performance.xml \
+    $(LOCAL_PATH)/media/media_codecs_vendor.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_vendor.xml \
     frameworks/av/media/libstagefright/data/media_codecs_google_audio.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_google_audio.xml \
     frameworks/av/media/libstagefright/data/media_codecs_google_telephony.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_google_telephony.xml \
     frameworks/av/media/libstagefright/data/media_codecs_google_video.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_google_video.xml \
@@ -281,7 +288,7 @@ PRODUCT_PACKAGES += \
 
 # NFC
 PRODUCT_PACKAGES += \
-    android.hardware.nfc@1.2-service \
+    android.hardware.nfc-service.nxp \
     com.android.nfc_extras \
     NfcNci \
     Tag
@@ -360,7 +367,7 @@ PRODUCT_COPY_FILES += \
 
 PRODUCT_PACKAGES += \
     vendor.lineage.oplus_als.service \
-    android.hardware.sensors@2.0-service.oneplus_msmnile \
+    android.hardware.sensors@2.1-service.oneplus_msmnile \
     libdumpstateutil.vendor:64 \
     libsensorndkbridge \
     sensors.oplus
@@ -414,9 +421,13 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.telephony.ims.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.telephony.ims.xml \
     frameworks/native/data/etc/android.software.sip.voip.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.sip.voip.xml
 
+$(call inherit-product, hardware/oplus/oplus-fwk/oplus-fwk.mk)
+
 # Touch
 PRODUCT_PACKAGES += \
     vendor.lineage.touch@1.0-service.oplus
+
+$(call soong_config_set,OPLUS_LINEAGE_TOUCH_HAL,INCLUDE_DIR,$(LOCAL_PATH)/touch/include)
 
 # Update engine
 PRODUCT_PACKAGES += \

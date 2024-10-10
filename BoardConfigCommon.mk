@@ -72,7 +72,7 @@ TARGET_SURFACEFLINGER_UDFPS_LIB := //hardware/oplus:libudfps_extension.oplus
 
 # HIDL
 DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE := \
-    $(COMMON_PATH)/device_framework_matrix.xml \
+    hardware/oplus/vintf/device_framework_matrix.xml \
     hardware/qcom-caf/common/vendor_framework_compatibility_matrix.xml \
     vendor/lineage/config/device_framework_matrix.xml
 DEVICE_MATRIX_FILE := hardware/qcom-caf/common/compatibility_matrix.xml
@@ -166,11 +166,6 @@ VENDOR_SECURITY_PATCH := 2022-12-05
 include device/qcom/sepolicy_vndr/SEPolicy.mk
 include hardware/oplus/sepolicy/qti/SEPolicy.mk
 include $(COMMON_PATH)/sepolicy/SEPolicy.mk
-
-# Touch
-SOONG_CONFIG_NAMESPACES += OPLUS_LINEAGE_TOUCH_HAL
-SOONG_CONFIG_OPLUS_LINEAGE_TOUCH_HAL := INCLUDE_DIR
-SOONG_CONFIG_OPLUS_LINEAGE_TOUCH_HAL_INCLUDE_DIR := $(COMMON_PATH)/touch/include
 
 # Verified Boot
 BOARD_AVB_ENABLE := true
